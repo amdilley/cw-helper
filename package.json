@@ -1,0 +1,16 @@
+{
+  "name": "cw-helper",
+  "version": "0.0.1",
+  "description": "Crossword clue CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "amdilley",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.19.0",
+    "inquirer": "^6.2.1",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
