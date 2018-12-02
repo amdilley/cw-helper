@@ -2,7 +2,20 @@ const program = require('commander');
 const { prompt } = require('inquirer');
 
 const { cluePrompt } = require('./prompts');
-const { nexusSearch } = require('./search');
+const {
+    crosswordHeavenSearch,
+    nexusSearch,
+} = require('./search');
+
+const SEARCH_WHITELIST = [
+    crosswordHeavenSearch,
+    nexusSearch,
+];
+
+const resolveSearches = clue =>
+    Promise.all(
+        SEARCH_WHITELIST.map(searchFn => searchFn(clue))
+    );
 
 program
     .version('0.0.1')
@@ -16,10 +29,12 @@ program
         // only prompt if no args are passed
         // assumes cw="node index.js clue" alias has been set
         if (process.argv[3]) {
-            nexusSearch(process.argv.slice(3).join(' '));
+            // nexusSearch(process.argv.slice(3).join(' '));
+            resolveSearches(process.argv.slice(3).join(' '));
         } else {
             prompt(cluePrompt)
-                .then(({ clue }) => nexusSearch(clue));
+                // .then(({ clue }) => nexusSearch(clue));
+                .then(({ clue }) => resolveSearches(clue));
         }
     });
 
