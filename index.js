@@ -12,9 +12,9 @@ const SEARCH_WHITELIST = [
     nexusSearch,
 ];
 
-const resolveSearches = clue =>
+const resolveSearches = (clue, pattern = '') =>
     Promise.all(
-        SEARCH_WHITELIST.map(searchFn => searchFn(clue))
+        SEARCH_WHITELIST.map(searchFn => searchFn(clue, pattern))
     );
 
 program
@@ -34,7 +34,7 @@ program
         } else {
             prompt(cluePrompt)
                 // .then(({ clue }) => nexusSearch(clue));
-                .then(({ clue }) => resolveSearches(clue));
+                .then(({ clue, pattern }) => resolveSearches(clue, pattern));
         }
     });
 

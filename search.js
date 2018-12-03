@@ -6,9 +6,9 @@ const {
     NEXUS_URL,
 } = require('./constants');
 
-const searchClueFactory = (siteName, urlBuilder, htmlParser) => async clue => {
-    const borderString = Array(siteName.length + 1).join("-");
-    const answers = await fetch(urlBuilder(clue))
+const searchClueFactory = (siteName, urlBuilder, htmlParser) => async (clue, pattern) => {
+    const borderString = Array(siteName.length + 1).join('-');
+    const answers = await fetch(urlBuilder(clue, pattern))
         .then(res => res.text())
         .then(htmlParser)
         .catch(console.error);
@@ -19,10 +19,11 @@ const searchClueFactory = (siteName, urlBuilder, htmlParser) => async clue => {
     console.log(answers.join('\n').toUpperCase(), '\n');
 };
 
-const crosswordHeavenURLBuilder = clue => {
+const crosswordHeavenURLBuilder = (clue, pattern) => {
     const url = new URL(CROSSWORD_HEAVEN_URL);
 
-    url.searchParams.append("clue", clue);
+    url.searchParams.append('clue', clue);
+    url.searchParams.append('answer', pattern);
 
     return url.href;
 };
@@ -36,10 +37,11 @@ const crosswordHeavenSearch = searchClueFactory(
     crosswordHeavenHTMLParser
 );
 
-const nexusURLBuilder = clue => {
+const nexusURLBuilder = (clue, pattern) => {
     const url = new URL(NEXUS_URL);
 
     url.searchParams.append('clue', clue);
+    url.searchParams.append('pattern', pattern);
 
     return url.href;
 };
