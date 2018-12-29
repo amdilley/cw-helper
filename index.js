@@ -29,13 +29,11 @@ program
         // only prompt if no args are passed
         // assumes cw="node index.js clue" alias has been set
         if (process.argv[3]) {
-            // nexusSearch(process.argv.slice(3).join(' '));
             resolveSearches(process.argv.slice(3).join(' '));
         } else {
             prompt(cluePrompt)
-                // .then(({ clue }) => nexusSearch(clue));
                 .then(({ clue, pattern }) => resolveSearches(clue, pattern));
         }
     });
 
-program.parse(process.argv)
+program.parse(process.argv);
